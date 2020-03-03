@@ -1,4 +1,4 @@
-FROM kalilinux/kali-linux-docker:latest
+FROM kalilinux/kali-rolling:latest
 WORKDIR /root
 RUN apt-get update && apt-get install -y \
     zsh \
@@ -19,7 +19,8 @@ RUN apt-get update && apt-get install -y \
     nmap \
     metasploit-framework \
     gobuster \
-    binwalk
+    binwalk \
+    procps
 
 # Customize ZSH
 RUN sh -c "$(wget -O- https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)" && \

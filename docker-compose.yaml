@@ -25,11 +25,5 @@ services:
     volumes:
       - .:/ctf
       - ./.zsh_history:/host/.zsh_history
-    # links:
-    #   - redis
     privileged: true
     command: tail -f /dev/null
-  # redis:
-  #   image: redis
-# volumes:
-#   logvolume01: {}
