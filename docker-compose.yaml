@@ -1,7 +1,7 @@
 version: '3'
 services:
   ctfsuite:
-    build: .
+    build: docker-images/ctfsuite
     ports:
       - "3301:3301"
       - "3302:3302"
@@ -23,7 +23,7 @@ services:
       - "3308"
       - "3309"
     volumes:
-      - .:/ctf
+      - .:/pwd
       - ./.zsh_history:/host/.zsh_history
     privileged: true
     command: tail -f /dev/null

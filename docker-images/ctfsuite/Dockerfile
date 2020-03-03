@@ -37,6 +37,7 @@ COPY entrypoint.sh /usr/bin/
 
 ADD https://raw.githubusercontent.com/v0re/dirb/master/wordlists/common.txt /usr/share/wordlists/dirb/common.txt
 COPY tmux.conf /root/.tmux.conf
+COPY tinyproxy.conf /etc/tinyproxy/tinyproxy.conf
 RUN chmod +x /usr/bin/entrypoint.sh
 ENTRYPOINT ["entrypoint.sh"]
 CMD ["zsh"]
