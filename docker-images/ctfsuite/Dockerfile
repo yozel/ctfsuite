@@ -1,7 +1,8 @@
 FROM kalilinux/kali-rolling:latest
 WORKDIR /root
+
+# Common Tools
 RUN apt-get update && apt-get install -y \
-    zsh \
     python python3 python-pip python3-pip \
     openssh-client \
     curl \
@@ -16,29 +17,22 @@ RUN apt-get update && apt-get install -y \
     netcat \
     man \
     telnet \
-    nmap \
+    procps \
+    iputils-ping
+
+# Common CTF tools
+RUN apt-get update && apt-get install -y \
     metasploit-framework \
     gobuster \
     binwalk \
-    procps
+    nmap
 
-# Customize ZSH
-RUN sh -c "$(wget -O- https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)" && \
-    git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions && \
-    sed -i 's/^\(plugins=.*\))/\1 zsh-autosuggestions)/' ~/.zshrc && \
-    echo 'export ZSH_AUTOSUGGEST_USE_ASYNC="TRUE"' >> ~/.zshrc && \
-    echo 'ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#858585"' >> ~/.zshrc && \
-    chsh -s /usr/bin/zsh && \
-    echo 'shell "/usr/bin/zsh"' > /root/.screenrc
+# Common RE Tools
+RUN apt-get update && apt-get install -y \
+    gdb
 
-# Disable IPV6 for HackTheBox VPN
-RUN echo "net.ipv6.conf.all.disable_ipv6 = 0\nnet.ipv6.conf.default.disable_ipv6 = 0\nnet.ipv6.conf.lo.disable_ipv6 = 0" >> /etc/sysctl.conf
-COPY entrypoint.sh /usr/bin/
-
+# Add common wordlists
+ADD https://github.com/brannondorsey/naive-hashcat/releases/download/data/rockyou.txt /usr/share/wordlists/rockyou.txt
 ADD https://raw.githubusercontent.com/v0re/dirb/master/wordlists/common.txt /usr/share/wordlists/dirb/common.txt
-COPY tmux.conf /root/.tmux.conf
-COPY tinyproxy.conf /etc/tinyproxy/tinyproxy.conf
-RUN chmod +x /usr/bin/entrypoint.sh
-ENTRYPOINT ["entrypoint.sh"]
-CMD ["zsh"]
 
+CMD ["bash"]

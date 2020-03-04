@@ -1,7 +1,7 @@
 version: '3'
 services:
-  ctfsuite:
-    build: docker-images/ctfsuite
+  tinyproxy:
+    build: docker-images/tinyproxy
     ports:
       - "3301:3301"
       - "3302:3302"
@@ -22,8 +22,27 @@ services:
       - "3307"
       - "3308"
       - "3309"
+  openvpn-hackthebox:
+    depends_on:
+      - tinyproxy
+    network_mode: "service:tinyproxy"
+    build: docker-images/openvpn-client
+    sysctls:
+      net.ipv6.conf.all.disable_ipv6: 0
+      net.ipv6.conf.default.disable_ipv6: 0
+      net.ipv6.conf.lo.disable_ipv6: 0
+    cap_add:
+      - NET_ADMIN
+    devices:
+      - "/dev/net/tun"
+    volumes:
+      - ./hackthebox.ovpn:/openvpn/ovpn.ovpn
+  ctfsuite:
+    depends_on:
+      - tinyproxy
+    network_mode: "service:tinyproxy"
+    build: docker-images/ctfsuite
     volumes:
       - .:/pwd
-      - ./.zsh_history:/host/.zsh_history
-    privileged: true
+      - ./.bash_history:/root/.bash_history
     command: tail -f /dev/null
