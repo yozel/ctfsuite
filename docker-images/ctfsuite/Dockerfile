@@ -20,6 +20,8 @@ RUN apt-get update && apt-get install -y \
     procps \
     iputils-ping
 
+COPY tmux.conf /root/.tmux.conf
+
 # Common CTF tools
 RUN apt-get update && apt-get install -y \
     metasploit-framework \
