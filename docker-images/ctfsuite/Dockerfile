@@ -20,6 +20,8 @@ RUN apt-get update && apt-get install -y \
     procps \
     iputils-ping
 
+# TODO: install ipython, requests
+
 COPY tmux.conf /root/.tmux.conf
 
 # Common CTF tools
@@ -34,7 +36,11 @@ RUN apt-get update && apt-get install -y \
     gdb
 
 # Add common wordlists
-ADD https://github.com/brannondorsey/naive-hashcat/releases/download/data/rockyou.txt /usr/share/wordlists/rockyou.txt
-ADD https://raw.githubusercontent.com/v0re/dirb/master/wordlists/common.txt /usr/share/wordlists/dirb/common.txt
+RUN mkdir -p /usr/share/wordlists/dirb
+RUN wget https://github.com/brannondorsey/naive-hashcat/releases/download/data/rockyou.txt -O /usr/share/wordlists/rockyou.txt
+RUN wget https://raw.githubusercontent.com/v0re/dirb/master/wordlists/common.txt -O /usr/share/wordlists/dirb/common.txt
 
+COPY entrypoint.sh entrypoint.sh
+RUN chmod +x entrypoint.sh
+ENTRYPOINT [ "./entrypoint.sh" ]
 CMD ["bash"]
