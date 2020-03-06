@@ -36,11 +36,15 @@ services:
       - NET_ADMIN
     volumes:
       - .:/pwd
-      - ./.bash_history:/root/.bash_history
-    command: tail -f /dev/null
+      - home:/root
+      # - ./.bash_history:/root/.bash_history
+    # command: tail -f /dev/null
+    tty: true
 networks:
   ctfsuite-net:
     ipam:
       driver: default
       config:
         - subnet: 172.28.28.0/24
+volumes:
+  home:
