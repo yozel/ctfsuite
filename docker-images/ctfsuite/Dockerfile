@@ -18,9 +18,9 @@ RUN apt-get update && apt-get install -y \
     man \
     telnet \
     procps \
-    iputils-ping
-
-# TODO: install ipython, requests
+    iputils-ping \
+    jq \
+    tree
 
 COPY tmux.conf /root/.tmux.conf
 
@@ -29,11 +29,14 @@ RUN apt-get update && apt-get install -y \
     metasploit-framework \
     gobuster \
     binwalk \
-    nmap
+    nmap \
+    hydra
 
 # Common RE Tools
 RUN apt-get update && apt-get install -y \
     gdb
+
+RUN pip3 install ipython requests ipdb pwntools
 
 # Add common wordlists
 RUN mkdir -p /usr/share/wordlists/dirb

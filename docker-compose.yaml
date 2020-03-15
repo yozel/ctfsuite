@@ -35,7 +35,7 @@ services:
     cap_add:
       - NET_ADMIN
     volumes:
-      - .:/pwd
+      - ./pwd:/pwd
       - home:/root
       # - ./.bash_history:/root/.bash_history
     # command: tail -f /dev/null
