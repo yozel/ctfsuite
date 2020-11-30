@@ -40,6 +40,7 @@ services:
       # - ./.bash_history:/root/.bash_history
     # command: tail -f /dev/null
     tty: true
+    privileged: true
 networks:
   ctfsuite-net:
     ipam:
